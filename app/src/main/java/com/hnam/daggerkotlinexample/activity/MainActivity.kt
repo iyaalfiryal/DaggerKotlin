@@ -5,10 +5,7 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
-import com.hnam.daggerkotlinexample.DaggerMyComponent
-import com.hnam.daggerkotlinexample.Info
-import com.hnam.daggerkotlinexample.NetworkUtils
-import com.hnam.daggerkotlinexample.R
+import com.hnam.daggerkotlinexample.*
 import com.hnam.daggerkotlinexample.app.App
 import javax.inject.Inject
 import javax.inject.Named
@@ -22,13 +19,18 @@ class MainActivity : AppCompatActivity() {
     @Inject lateinit var networkUtils: NetworkUtils
 
 
+    @Inject lateinit var userUtils: UserUtils
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        App.getInstance().appComponent.inject(this)
+        App.getInstance().appComponent.plus(UserModule()).inject(this)
+
+
         Log.e(TAG, "love ${infoLove.name}")
         Log.e(TAG, "happy ${infoHappy.name} ")
         Log.e(TAG, "networkUtils = " + networkUtils.toString())
+        Log.e("UserActivity", "userUtils = " + userUtils.toString())
 
         var btn = findViewById<Button>(R.id.button)
         btn.setOnClickListener {
