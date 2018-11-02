@@ -5,10 +5,7 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
-import com.hnam.daggerkotlinexample.DaggerMyComponent
-import com.hnam.daggerkotlinexample.Info
-import com.hnam.daggerkotlinexample.NetworkUtils
-import com.hnam.daggerkotlinexample.R
+import com.hnam.daggerkotlinexample.*
 import com.hnam.daggerkotlinexample.app.App
 import javax.inject.Inject
 import javax.inject.Named
@@ -16,8 +13,8 @@ import javax.inject.Named
 class MainActivity : AppCompatActivity() {
     private val TAG = MainActivity::class.java.simpleName
 
-    @Inject @field:Named(LOVE) lateinit var infoLove: Info
-    @Inject @field:Named(HAPPY) lateinit var infoHappy: Info
+//    @Inject @field:Named(LOVE) lateinit var infoLove: Info
+//    @Inject @field:Named(HAPPY) lateinit var infoHappy: Info
 
     @Inject lateinit var networkUtils: NetworkUtils
 
@@ -25,9 +22,11 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        App.getInstance().appComponent.inject(this)
-        Log.e(TAG, "love ${infoLove.name}")
-        Log.e(TAG, "happy ${infoHappy.name} ")
+        DaggerUserComponent.builder()
+                .myComponent(App.getInstance().appComponent)
+                .build().inject(this)
+//        Log.e(TAG, "love ${infoLove.name}")
+//        Log.e(TAG, "happy ${infoHappy.name} ")
         Log.e(TAG, "networkUtils = " + networkUtils.toString())
 
         var btn = findViewById<Button>(R.id.button)

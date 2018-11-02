@@ -25,6 +25,7 @@ class MyModule {
     }
 
 //    @Provides
+//    @Singleton
 //    fun provideNetworkUtils(): NetworkUtils{
 //        return NetworkUtils()
 //    }
